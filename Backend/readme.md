@@ -174,3 +174,95 @@ Authenticates a user and returns a JWT token.
 ```
 
 ---
+
+## 📌 GET `/users/profile`
+
+### ✅ Description
+Returns the currently logged-in user's profile information.
+
+---
+
+### 🔐 Authorization
+
+| Header | Value                    | Required | Description                 |
+|--------|--------------------------|----------|-----------------------------|
+| Cookie | token=JWT_TOKEN          | ✅       | JWT Token from login        |
+
+---
+
+### 🟢 Success Response
+
+**Status Code:** `200 OK`
+
+```json
+{
+  "_id": "user_id",
+  "fullname": {
+    "firstname": "John",
+    "lastname": "Doe"
+  },
+  "email": "john.doe@example.com"
+}
+```
+
+---
+
+### 🔴 Error Response
+
+**Status Code:** `401 Unauthorized`
+
+```json
+{
+  "message": "Unauthorized"
+}
+```
+
+---
+
+## 📌 GET `/users/logout`
+
+### ✅ Description
+Logs out the user by blacklisting their JWT token and clearing the cookie.
+
+---
+
+### 🔐 Authorization
+
+| Header | Value                    | Required | Description                 |
+|--------|--------------------------|----------|-----------------------------|
+| Cookie | token=JWT_TOKEN          | ✅       | JWT Token from login        |
+
+---
+
+### 🟢 Success Response
+
+**Status Code:** `200 OK`
+
+```json
+{
+  "message": "Logged out"
+}
+```
+
+---
+
+### 🔴 Error Response
+
+**Status Code:** `401 Unauthorized`
+
+```json
+{
+  "message": "Unauthorized"
+}
+```
+
+---
+
+## 🔐 Token Blacklisting
+
+- On logout, the user's token is blacklisted for **24 hours** using a TTL MongoDB schema.
+- All protected routes check against the blacklist before proceeding.
+
+---
+
+Let me know if you also want to document the middleware or database schema in this file!
