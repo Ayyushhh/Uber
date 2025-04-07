@@ -375,3 +375,195 @@ Registers a new captain into the system.
 - **Internal server errors** – status 500 with relevant error message
 
 ---
+
+## 📌 POST `/captains/login`
+
+### ✅ Description
+Authenticates a captain and returns a JWT token.
+
+---
+
+### 📤 Request Headers
+
+| Header         | Value              | Required | Description             |
+|----------------|--------------------|----------|-------------------------|
+| Content-Type   | application/json   | ✅       | Must be set for JSON body |
+
+---
+
+### 🧾 Request Body
+
+```json
+{
+  "email": "test@gmail.com",
+  "password": "test123"
+}
+```
+
+---
+
+### 🔍 Validation Rules
+
+| Field       | Rule                             |
+|-------------|----------------------------------|
+| `email`     | Must be a valid email format     |
+| `password`  | Must be at least 6 characters long |
+
+---
+
+### 🟢 Success Response
+
+**Status Code:** `200 OK`
+
+```json
+{
+  "token": "jwt_token_here",
+  "captain": {
+    "fullname": {
+      "firstname": "Test1",
+      "lastname": "qwe"
+    },
+    "vehicle": {
+      "color": "Yellow",
+      "plate": "1234567890",
+      "capacity": 4,
+      "vehicleType": "car"
+    },
+    "_id": "67f392d707bb205c45eaa5c9",
+    "email": "test@gmail.com",
+    "password": "hashed_password",
+    "status": "inactive",
+    "__v": 0
+  }
+}
+```
+
+> 🔒 **Note:** The password is hashed and should not be exposed in production responses.
+
+---
+
+### 🔴 Error Responses
+
+#### 🔐 400 - Validation Errors
+
+```json
+{
+  "errors": [
+    {
+      "type": "field",
+      "msg": "Invalid Email",
+      "path": "email",
+      "location": "body"
+    }
+  ]
+}
+```
+
+#### ❌ 401 - Invalid Credentials
+
+```json
+{
+  "message": "Invalid email or password"
+}
+```
+
+---
+
+## 📌 GET `/captains/profile`
+
+### ✅ Description
+Returns the currently logged-in captain's profile information.
+
+---
+
+### 🔐 Authorization
+
+| Header | Value                    | Required | Description                 |
+|--------|--------------------------|----------|-----------------------------|
+| Cookie | token=JWT_TOKEN          | ✅       | JWT Token from login        |
+
+---
+
+### 🟢 Success Response
+
+**Status Code:** `200 OK`
+
+```json
+{
+  "captain": {
+    "fullname": {
+      "firstname": "Test1",
+      "lastname": "qwe"
+    },
+    "vehicle": {
+      "color": "Yellow",
+      "plate": "1234567890",
+      "capacity": 4,
+      "vehicleType": "car"
+    },
+    "_id": "67f392d707bb205c45eaa5c9",
+    "email": "test@gmail.com",
+    "status": "inactive",
+    "__v": 0
+  }
+}
+```
+
+---
+
+### 🔴 Error Response
+
+**Status Code:** `401 Unauthorized`
+
+```json
+{
+  "message": "Unauthorized"
+}
+```
+
+---
+
+## 📌 GET `/captains/logout`
+
+### ✅ Description
+Logs out the captain by blacklisting their JWT token and clearing the cookie.
+
+---
+
+### 🔐 Authorization
+
+| Header | Value                    | Required | Description                 |
+|--------|--------------------------|----------|-----------------------------|
+| Cookie | token=JWT_TOKEN          | ✅       | JWT Token from login        |
+
+---
+
+### 🟢 Success Response
+
+**Status Code:** `200 OK`
+
+```json
+{
+  "message": "Logged out"
+}
+```
+
+---
+
+### 🔴 Error Response
+
+**Status Code:** `401 Unauthorized`
+
+```json
+{
+  "message": "Unauthorized"
+}
+```
+
+---
+
+## 🔐 Captain Token Blacklisting
+
+- On logout, the captain's token is blacklisted for **24 hours** using a TTL MongoDB schema.
+- All protected captain routes check against the blacklist before proceeding.
+

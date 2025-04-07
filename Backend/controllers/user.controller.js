@@ -55,7 +55,7 @@ async function loginUser(req,res,next) {
 }
 
 async function getUserProfile(req, res, next) {
-    res.status(200).json(req.user);
+    res.status(200).json({user: req.user});
 }
 
 async function logoutUser(req,res,next) {
