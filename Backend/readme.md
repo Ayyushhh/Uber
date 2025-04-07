@@ -264,3 +264,59 @@ Logs out the user by blacklisting their JWT token and clearing the cookie.
 - All protected routes check against the blacklist before proceeding.
 
 ---
+
+## 📌 POST /captain/register
+
+### ✅ Description
+Registers a new captain into the system.
+
+---
+
+### 📤 Request Headers
+
+| Header         | Value              | Required | Description             |
+|----------------|--------------------|----------|-------------------------|
+| Content-Type   | application/json   | ✅       | Must be set for JSON body |
+
+---
+
+### 🧾 Request Body
+
+json{  "fullname": {    "firstname": "John",    "lastname": "Doe"  },  "email": "john.doe@example.com",  "password": "securePassword123",  "vehicle": {    "color": "red",    "plate": "XYZ123",    "capacity": 4,    "vehicleType": "car"  },  "location": {    "latitude": 40.7128,    "longitude": -74.0060  }}
+
+---
+
+### 🔍 Validation Rules
+
+| Field                 | Rule                                      |
+|----------------------|-------------------------------------------|
+| fullname.firstname   | Must be at least 3 characters long        |
+| email                | Must be a valid email format              |
+| password             | Must be at least 6 characters long        |
+| vehicle.color        | Must be at least 3 characters long        |
+| vehicle.plate        | Must be at least 3 characters long        |
+| vehicle.capacity     | Must be at least 1                        |
+| vehicle.vehicleType  | Must be one of ['car', 'motorcycle', 'auto'] |
+
+---
+
+### 🟢 Success Response
+
+**Status Code:** 201 Created
+json{  "message": "User registered successfully",  "token": "jwt_token_here",  "captain": {    "_id": "captain_id",    "fullname": {      "firstname": "John",      "lastname": "Doe"    },    "email": "john.doe@example.com",    "vehicle": {      "color": "red",      "plate": "XYZ123",      "capacity": 4,      "vehicleType": "car"    }  }}
+
+---
+
+### 🔴 Error Response
+
+**Status Code:** 400 Bad Request – Input validation errors
+json{  "errors": [    {      "type": "field",      "msg": "First name must be at least 3 characters long",      "path": "fullname.firstname",      "location": "body"    },    {      "type": "field",      "msg": "Invalid Email",      "path": "email",      "location": "body"    }  ]}
+
+---
+
+### 🛑 Other Error Scenarios
+
+- **Captain already exists** – handled by MongoDB's unique constraint
+- **Internal server errors** – status 500 with relevant error message
+
+---
