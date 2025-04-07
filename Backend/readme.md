@@ -282,7 +282,26 @@ Registers a new captain into the system.
 
 ### 🧾 Request Body
 
-json{  "fullname": {    "firstname": "John",    "lastname": "Doe"  },  "email": "john.doe@example.com",  "password": "securePassword123",  "vehicle": {    "color": "red",    "plate": "XYZ123",    "capacity": 4,    "vehicleType": "car"  },  "location": {    "latitude": 40.7128,    "longitude": -74.0060  }}
+```json
+{
+  "fullname": {
+    "firstname": "John",
+    "lastname": "Doe"
+  },
+  "email": "john.doe@example.com",
+  "password": "securePassword123",
+  "vehicle": {
+    "color": "red",
+    "plate": "XYZ123",
+    "capacity": 4,
+    "vehicleType": "car"
+  },
+  "location": {
+    "latitude": 40.7128,
+    "longitude": -74.006
+  }
+}
+```
 
 ---
 
