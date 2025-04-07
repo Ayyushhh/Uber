@@ -92,3 +92,85 @@ Registers a new user into the system.
 - **Internal server errors** – status `500` with relevant error message
 
 ---
+
+## 📌 POST `/users/login`
+
+### ✅ Description
+Authenticates a user and returns a JWT token.
+
+---
+
+### 📤 Request Headers
+
+| Header         | Value              | Required | Description             |
+|----------------|--------------------|----------|-------------------------|
+| Content-Type   | application/json   | ✅       | Must be set for JSON body |
+
+---
+
+### 🧾 Request Body
+
+```json
+{
+  "email": "john.doe@example.com",
+  "password": "securePassword123"
+}
+```
+
+---
+
+### 🔍 Validation Rules
+
+| Field       | Rule                             |
+|-------------|----------------------------------|
+| `email`     | Must be a valid email format     |
+| `password`  | Must be at least 6 characters long |
+
+---
+
+### 🟢 Success Response
+
+**Status Code:** `200 OK`
+
+```json
+{
+  "token": "jwt_token_here",
+  "user": {
+    "_id": "user_id",
+    "fullname": {
+      "firstname": "John",
+      "lastname": "Doe"
+    },
+    "email": "john.doe@example.com"
+  }
+}
+```
+
+---
+
+### 🔴 Error Responses
+
+#### 🔐 400 - Validation Errors
+
+```json
+{
+  "errors": [
+    {
+      "type": "field",
+      "msg": "Invalid Email",
+      "path": "email",
+      "location": "body"
+    }
+  ]
+}
+```
+
+#### ❌ 401 - Invalid Credentials
+
+```json
+{
+  "message": "Invalid email or password"
+}
+```
+
+---
