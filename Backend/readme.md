@@ -302,15 +302,19 @@ json{  "fullname": {    "firstname": "John",    "lastname": "Doe"  },  "email": 
 
 ### 🟢 Success Response
 
-**Status Code:** 201 Created
-json{  "message": "User registered successfully",  "token": "jwt_token_here",  "captain": {    "_id": "captain_id",    "fullname": {      "firstname": "John",      "lastname": "Doe"    },    "email": "john.doe@example.com",    "vehicle": {      "color": "red",      "plate": "XYZ123",      "capacity": 4,      "vehicleType": "car"    }  }}
+**Status Code:** `201 Created`
+```json
+{  "message": "User registered successfully",  "token": "jwt_token_here",  "captain": {    "_id": "captain_id",    "fullname": {      "firstname": "John",      "lastname": "Doe"    },    "email": "john.doe@example.com",    "vehicle": {      "color": "red",      "plate": "XYZ123",      "capacity": 4,      "vehicleType": "car"    }  }}
+```
 
 ---
 
 ### 🔴 Error Response
 
-**Status Code:** 400 Bad Request – Input validation errors
-json{  "errors": [    {      "type": "field",      "msg": "First name must be at least 3 characters long",      "path": "fullname.firstname",      "location": "body"    },    {      "type": "field",      "msg": "Invalid Email",      "path": "email",      "location": "body"    }  ]}
+**Status Code:** `400 Bad Request – Input validation errors`
+```json
+{  "errors": [    {      "type": "field",      "msg": "First name must be at least 3 characters long",      "path": "fullname.firstname",      "location": "body"    },    {      "type": "field",      "msg": "Invalid Email",      "path": "email",      "location": "body"    }  ]}
+```
 
 ---
 
