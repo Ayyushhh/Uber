@@ -264,5 +264,3 @@ Logs out the user by blacklisting their JWT token and clearing the cookie.
 - All protected routes check against the blacklist before proceeding.
 
 ---
-
-Let me know if you also want to document the middleware or database schema in this file!
